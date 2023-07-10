@@ -5,8 +5,9 @@ import (
 	"log"
 
 	"github.com/Gealber/jobseeker/config"
-	// linkedinClient "github.com/Gealber/jobseeker/linkedin/client"
+	googleClient "github.com/Gealber/jobseeker/google/client"
 	ycombinatorClient "github.com/Gealber/jobseeker/hackernews/client"
+	linkedinClient "github.com/Gealber/jobseeker/linkedin/client"
 	jobRepo "github.com/Gealber/jobseeker/repositories/job"
 
 	"github.com/gocolly/colly"
@@ -41,19 +42,30 @@ func main() {
 			"news.ycombinator.com",
 			"ycombinator.com",
 			"www.ycombinator.com",
+			"www.google.com",
 		),
 		// User agent
 		colly.UserAgent("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36"),
 	)
 
-	// linkedinClt := linkedinClient.New(collector)
-	// params := []linkedinClient.SearchParam{
-	// 	{Keywords: "Golang", Location: "United States", FTPR: "r604800", FWT: "2", Position: 1, PageNum: 0},
-	// }
-	// jobs := linkedinClt.Search(params)
+	// scraping on linkedin
+	linkedinClt := linkedinClient.New(collector)
+	params := []linkedinClient.SearchParam{
+		{Keywords: "Golang", Location: "United States", FTPR: "r604800", FWT: "2", Position: 1, PageNum: 0},
+	}
+	jobs := linkedinClt.Search(params)
 
+	// scraping in hackernews
 	ycombinatorClt := ycombinatorClient.New(collector)
-	jobs := ycombinatorClt.Search()
+	jobs = append(jobs, ycombinatorClt.Search()...)
+
+	// scraping in google
+	googleClt := googleClient.New(collector)
+	googleParams := []googleClient.SearchParam{
+		{Keywords: "golang backend", Website: "app.otta.com", Period: "qdr:w"},
+	}
+	jobs = append(jobs, googleClt.Search(googleParams)...)
+
 	repo := jobRepo.NewRepository(db)
 
 	if len(jobs) > 0 {

@@ -33,6 +33,11 @@ func (c *client) Search() []model.Job {
 			if err != nil {
 				log.Println(err)
 			}
+		} else {
+			result = append(result, model.Job{
+				Link:        link,
+				Description: "IN THE WEBSITE",
+			})
 		}
 	})
 

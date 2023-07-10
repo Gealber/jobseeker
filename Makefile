@@ -11,7 +11,7 @@ run: ## Run code
 
 build: ## Build binary
 	@mkdir -p bin
-	@go build  -o bin/node main.go
+	@go build  -o bin/jobseeker main.go
 
 test: ## Run tests
 	@go test -v -race ./... -coverprofile=coverage.out

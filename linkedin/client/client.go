@@ -33,6 +33,7 @@ func (c *client) Search(params []SearchParam) []model.Job {
 		result = append(result, model.Job{
 			Link:        h.Request.URL.String(),
 			Description: h.Text,
+			Client:      ClientName,
 		})
 	})
 

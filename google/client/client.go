@@ -27,13 +27,17 @@ func (c *client) Search(params []SearchParam) []model.Job {
 
 		// cleaning link
 		if strings.Contains(link, "translate.google.com") {
-			q, err := url.ParseQuery(link)
+			urlVal, err := url.Parse(link)
 			if err != nil {
 				// ignoring this link
 				return
 			}
 
-			link = q.Get("u")
+			if urlVal.Hostname() == "" {
+				return
+			}
+
+			link = urlVal.Query().Get("u")
 		}
 
 		result = append(result, model.Job{

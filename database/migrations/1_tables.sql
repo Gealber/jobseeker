@@ -6,6 +6,7 @@ CREATE TABLE IF NOT EXISTS jobs (
     description TEXT,
     tech_stack VARCHAR(100)[],
     applied BOOLEAN,
+    client VARCHAR(25),
     published_at TIMESTAMP,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,

@@ -11,6 +11,8 @@ type Job struct {
 	Link        string         `gorm:"column:link"`
 	Description string         `gorm:"column:description"`
 	TechStack   pq.StringArray `gorm:"column:tech_stack;type:varchar(255)[]"`
+	Applied     bool           `gorm:"column:applied"`
+	Client      string         `gorm:"column:client"`
 	CreatedAt   time.Time
 	UpdatedAt   time.Time
 	DeletedAt   time.Time `gorm:"index"`

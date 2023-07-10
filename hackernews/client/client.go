@@ -34,10 +34,13 @@ func (c *client) Search() []model.Job {
 				log.Println(err)
 			}
 		} else {
-			result = append(result, model.Job{
-				Link:        link,
-				Description: "IN THE WEBSITE",
-			})
+			if urlVal.Hostname() != "" {
+				result = append(result, model.Job{
+					Link:        link,
+					Description: "IN THE WEBSITE",
+					Client:      ClientName,
+				})
+			}
 		}
 	})
 
@@ -47,6 +50,7 @@ func (c *client) Search() []model.Job {
 		result = append(result, model.Job{
 			Link:        h.Request.URL.String(),
 			Description: h.Text,
+			Client:      ClientName,
 		})
 	})
 
